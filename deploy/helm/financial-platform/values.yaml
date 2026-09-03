@@ -1,0 +1,12 @@
+namespace: financial-platform
+imageRegistry: ECR_REGISTRY
+tag: latest
+replicas: 2
+services:
+  account-ingestion-service: 8081
+  data-validation-service: 8082
+  customer-eligibility-service: 8083
+  account-segmentation-service: 8084
+  enrollment-service: 8085
+  data-transformation-service: 8086
+  transaction-notification-service: 8087

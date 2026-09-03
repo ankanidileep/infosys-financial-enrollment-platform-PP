@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: financial-platform
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_ORG/infosys-financial-enrollment-platform.git
+    targetRevision: main
+    path: deploy/helm/financial-platform
+    helm:
+      values: |
+        imageRegistry: YOUR_AWS_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com
+        tag: "IMAGE_TAG"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: financial-platform
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

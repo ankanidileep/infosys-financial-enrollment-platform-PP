@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-segmentation-service
+  namespace: financial-platform
+  labels: {app: account-segmentation-service}
+spec:
+  replicas: 2
+  strategy: {type: RollingUpdate, rollingUpdate: {maxUnavailable: 0, maxSurge: 1}}
+  selector: {matchLabels: {app: account-segmentation-service}}
+  template:
+    metadata: {labels: {app: account-segmentation-service}}
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector: {matchLabels: {app: account-segmentation-service}}
+      containers:
+      - name: account-segmentation-service
+        image: ECR_REGISTRY/account-segmentation-service:IMAGE_TAG
+        imagePullPolicy: IfNotPresent
+        ports: [{name: http, containerPort: 8084}]
+        envFrom: [{configMapRef: {name: platform-config}}, {secretRef: {name: platform-secret}}]
+        securityContext: {allowPrivilegeEscalation: false, capabilities: {drop: ["ALL"]}, readOnlyRootFilesystem: true}
+        volumeMounts: [{name: tmp, mountPath: /tmp}]
+        resources: {requests: {cpu: 100m, memory: 256Mi}, limits: {cpu: 500m, memory: 512Mi}}
+        startupProbe: {httpGet: {path: /actuator/health/liveness, port: http}, failureThreshold: 30, periodSeconds: 5}
+        readinessProbe: {httpGet: {path: /actuator/health/readiness, port: http}, periodSeconds: 10}
+        livenessProbe: {httpGet: {path: /actuator/health/liveness, port: http}, initialDelaySeconds: 30, periodSeconds: 20}
+      volumes: [{name: tmp, emptyDir: {}}]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-segmentation-service
+  namespace: financial-platform
+  labels: {app: account-segmentation-service}
+spec:
+  selector: {app: account-segmentation-service}
+  ports: [{name: http, port: 8084, targetPort: http}]
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-segmentation-service
+  namespace: financial-platform
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: account-segmentation-service}
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource: {name: cpu, target: {type: Utilization, averageUtilization: 70}}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: account-segmentation-service
+  namespace: financial-platform
+spec:
+  minAvailable: 1
+  selector: {matchLabels: {app: account-segmentation-service}}

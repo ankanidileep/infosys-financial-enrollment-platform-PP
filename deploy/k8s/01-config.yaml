@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+  namespace: financial-platform
+data:
+  LOG_LEVEL: "INFO"
+  VALIDATION_SERVICE_URL: "http://data-validation-service:8082"
+  ELIGIBILITY_SERVICE_URL: "http://customer-eligibility-service:8083"
+  SEGMENTATION_SERVICE_URL: "http://account-segmentation-service:8084"
+  ENROLLMENT_SERVICE_URL: "http://enrollment-service:8085"
+  TRANSFORMATION_SERVICE_URL: "http://data-transformation-service:8086"
+  NOTIFICATION_SERVICE_URL: "http://transaction-notification-service:8087"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: platform-secret
+  namespace: financial-platform
+type: Opaque
+stringData:
+  DEMO_TOKEN: "change-me"

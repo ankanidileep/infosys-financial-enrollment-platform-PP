@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: financial-platform
+  namespace: financial-platform
+spec:
+  selector:
+    matchExpressions:
+    - key: app
+      operator: Exists
+  namespaceSelector:
+    matchNames: [financial-platform]
+  endpoints:
+  - port: http
+    path: /actuator/prometheus

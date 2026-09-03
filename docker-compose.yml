@@ -1,0 +1,90 @@
+services:
+  gateway:
+    build: ./gateway
+    ports: ["8080:8080"]
+    depends_on:
+      account-ingestion-service:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8080/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  account-ingestion-service:
+    build: ./services/account-ingestion-service
+    expose: ["8081"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8081/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  data-validation-service:
+    build: ./services/data-validation-service
+    expose: ["8082"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8082/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  customer-eligibility-service:
+    build: ./services/customer-eligibility-service
+    expose: ["8083"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8083/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  account-segmentation-service:
+    build: ./services/account-segmentation-service
+    expose: ["8084"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8084/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  enrollment-service:
+    build: ./services/enrollment-service
+    expose: ["8085"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8085/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  data-transformation-service:
+    build: ./services/data-transformation-service
+    expose: ["8086"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8086/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6
+
+  transaction-notification-service:
+    build: ./services/transaction-notification-service
+    expose: ["8087"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL","curl -fsS http://127.0.0.1:8087/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 6

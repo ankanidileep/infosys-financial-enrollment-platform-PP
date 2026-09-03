@@ -1,0 +1,3 @@
+# Intentionally empty in the base lab.
+# Add environment-specific least-privilege NetworkPolicies after validating
+# the AWS Load Balancer Controller traffic path in your cluster.

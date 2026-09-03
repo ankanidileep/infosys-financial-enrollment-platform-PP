@@ -1,0 +1,25 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: account-ingestion-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+workflow:
+  services:
+    validation-url: ${VALIDATION_SERVICE_URL:http://data-validation-service:8082}
+    eligibility-url: ${ELIGIBILITY_SERVICE_URL:http://customer-eligibility-service:8083}
+    segmentation-url: ${SEGMENTATION_SERVICE_URL:http://account-segmentation-service:8084}
+    enrollment-url: ${ENROLLMENT_SERVICE_URL:http://enrollment-service:8085}
+    transformation-url: ${TRANSFORMATION_SERVICE_URL:http://data-transformation-service:8086}
+    notification-url: ${NOTIFICATION_SERVICE_URL:http://transaction-notification-service:8087}

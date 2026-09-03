@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z"/></marker></defs>
+<style>
+.box{fill:#f7f7f7;stroke:#333;stroke-width:2;rx:12}.title{font:700 22px sans-serif}.txt{font:16px sans-serif}.small{font:14px sans-serif}.arrow{stroke:#333;stroke-width:2;marker-end:url(#a)}
+</style>
+<text x="750" y="35" text-anchor="middle" class="title">Infosys Financial Enrollment Platform — 3 Tier AWS/EKS Architecture</text>
+
+<rect x="40" y="70" width="1420" height="120" class="box"/>
+<text x="70" y="105" class="title">Tier 1 — Presentation / Edge</text>
+<rect x="80" y="125" width="230" height="45" class="box"/><text x="195" y="153" text-anchor="middle" class="txt">Account Management System</text>
+<rect x="390" y="125" width="180" height="45" class="box"/><text x="480" y="153" text-anchor="middle" class="txt">Route 53 / DNS</text>
+<rect x="650" y="125" width="190" height="45" class="box"/><text x="745" y="153" text-anchor="middle" class="txt">ALB / Ingress</text>
+<rect x="920" y="125" width="240" height="45" class="box"/><text x="1040" y="153" text-anchor="middle" class="txt">API / Gateway Layer</text>
+<rect x="1240" y="125" width="170" height="45" class="box"/><text x="1325" y="153" text-anchor="middle" class="txt">WAF / TLS</text>
+
+<line x1="310" y1="147" x2="390" y2="147" class="arrow"/><line x1="570" y1="147" x2="650" y2="147" class="arrow"/><line x1="840" y1="147" x2="920" y2="147" class="arrow"/>
+
+<rect x="40" y="230" width="1420" height="350" class="box"/>
+<text x="70" y="265" class="title">Tier 2 — Business / Application — Amazon EKS</text>
+<text x="70" y="292" class="small">Private subnets • Multi-AZ node groups • Kubernetes Services • HPA • PDB • probes • NetworkPolicy • Argo CD</text>
+
+<rect x="80" y="325" width="250" height="65" class="box"/><text x="205" y="352" text-anchor="middle" class="txt">Account Ingestion</text><text x="205" y="375" text-anchor="middle" class="small">POST /api/v1/process</text>
+<rect x="370" y="325" width="250" height="65" class="box"/><text x="495" y="352" text-anchor="middle" class="txt">Data Validation</text><text x="495" y="375" text-anchor="middle" class="small">mandatory / format checks</text>
+<rect x="660" y="325" width="250" height="65" class="box"/><text x="785" y="352" text-anchor="middle" class="txt">Customer Eligibility</text><text x="785" y="375" text-anchor="middle" class="small">business qualification</text>
+<rect x="950" y="325" width="250" height="65" class="box"/><text x="1075" y="352" text-anchor="middle" class="txt">Account Segmentation</text><text x="1075" y="375" text-anchor="middle" class="small">SPWS / SPCS / PLAT / GOLD / PREF</text>
+
+<rect x="225" y="450" width="250" height="65" class="box"/><text x="350" y="477" text-anchor="middle" class="txt">Enrollment</text><text x="350" y="500" text-anchor="middle" class="small">create / update / tier action</text>
+<rect x="515" y="450" width="250" height="65" class="box"/><text x="640" y="477" text-anchor="middle" class="txt">Data Transformation</text><text x="640" y="500" text-anchor="middle" class="small">target payload mapping</text>
+<rect x="805" y="450" width="250" height="65" class="box"/><text x="930" y="477" text-anchor="middle" class="txt">Transaction Notification</text><text x="930" y="500" text-anchor="middle" class="small">delivery / retry / audit</text>
+
+<line x1="330" y1="357" x2="370" y2="357" class="arrow"/><line x1="620" y1="357" x2="660" y2="357" class="arrow"/><line x1="910" y1="357" x2="950" y2="357" class="arrow"/>
+<line x1="1075" y1="390" x2="350" y2="450" class="arrow"/><line x1="475" y1="482" x2="515" y2="482" class="arrow"/><line x1="765" y1="482" x2="805" y2="482" class="arrow"/>
+
+<rect x="1090" y="445" width="300" height="70" class="box"/><text x="1240" y="474" text-anchor="middle" class="txt">Observability</text><text x="1240" y="498" text-anchor="middle" class="small">Prometheus • Grafana • CloudWatch</text>
+
+<rect x="40" y="620" width="1420" height="170" class="box"/>
+<text x="70" y="655" class="title">Tier 3 — Data / Target Systems</text>
+<rect x="100" y="690" width="250" height="60" class="box"/><text x="225" y="725" text-anchor="middle" class="txt">PostgreSQL</text>
+<rect x="470" y="690" width="250" height="60" class="box"/><text x="595" y="725" text-anchor="middle" class="txt">Redis / Cache (optional)</text>
+<rect x="840" y="690" width="250" height="60" class="box"/><text x="965" y="725" text-anchor="middle" class="txt">S3 / Audit Artifacts</text>
+<rect x="1210" y="690" width="190" height="60" class="box"/><text x="1305" y="725" text-anchor="middle" class="txt">Transaction Processing System</text>
+<line x1="930" y1="515" x2="965" y2="690" class="arrow"/><line x1="1055" y1="515" x2="1305" y2="690" class="arrow"/>
+
+<text x="750" y="845" text-anchor="middle" class="small">CI/CD: Git → Jenkins → Maven → SonarQube → OWASP DC → Nexus → Docker → Trivy → ECR → GitOps → Argo CD → EKS</text>
+</svg>
