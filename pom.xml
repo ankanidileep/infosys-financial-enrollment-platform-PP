@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>com.infosys</groupId>
+    <artifactId>infosys-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    
+    <name>Infosys Financial Enrollment Platform</name>
+    <description>Parent POM for all microservices</description>
+    
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <sonar.organization>infosys</sonar.organization>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+    </properties>
+    
+    <modules>
+        <module>services/account-ingestion-service</module>
+        <module>services/data-validation-service</module>
+        <module>services/customer-eligibility-service</module>
+        <module>services/account-segmentation-service</module>
+        <module>services/enrollment-service</module>
+        <module>services/data-transformation-service</module>
+        <module>services/transaction-notification-service</module>
+    </modules>
+</project>
